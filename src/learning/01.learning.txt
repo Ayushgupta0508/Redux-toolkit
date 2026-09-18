@@ -1,0 +1,87 @@
+UNDERSTANDING REDUX TOOLKIT 
+
+-> ye redux ka hi updated version hai . jisme hamare code ko simple kr diya gaya hai . pahele to ye samaj lo ki ye sab hm apna state ko manage krne liye krte hai . 
+
+now hmko yaha code ko ratne ka jarurat nhi hai bas samajna hai or uske liye hm redux toolkit ke documentation pe chale jayenge . or fir code krna suru kr denge . 
+
+i. installation and setup : to mujhe redux toolkit ko install krna hoga , or usko react se connect krna hoga . uske liye we have to install , npm install @reduxjs/tookit and to connect we have to install : npm install react-redux . 
+
+ii. store create : quick start pe pahuch jayenge , waha configureStore ko import krke store bna lenge or usko export kr lenge . or uske ander reducer pass kr denge jaha ab hm multiple reducers bhej skte hai  . 
+(for understanding: hmko apne paisa ko manage krne ke liye ghar me yek almari banaye. )
+
+iii. provide kara lenge , provider ki madat se in main.jsx . or usme store pass kr denge . 
+(for understanding : hm apne almari ko yek jaghe de diye ki ab se wo waha pe rahega or jisko kuch len den krna hai , wo wahi se kr payega. )
+
+iv. now provide karane ke baad hm reducer banayenge , reducer hamara broker ke trhe kaam karta hai . reducer hamara wo aadmi hota hai jo har account holder ko assigine khud ka personal aadmi hota hai or isko hi state (means account me kya kya hai ) , action (means ki kya kaam hoga hai ) pata hota hai . waha hm reducer + state + action teeno yek sath krte hai . ko ki merge ho ke ban jata hai counterSlice.js , 
+
+v. to sabse pahele feature folder banayene ki hm hm alag alag kaam ke liye alag alag reducer banayenge issliye then fir uske ander counterSlice bna lenge . now usme initial state banayene means ki jo abhi present me uske ander kitna paisa hai . then fir apna slice create karenge . usme name pass karenge q ki ye kiska account hai wo v to pta hona chahiye , or usme paisa initially kitna hai uske liye initial state , or uske annder reducer panayenge . 
+
+vi. jiske pass state , action dono hai . or usme hmko jo jo kaam krwana hai ki yese ho to ye krna or ye ho to ye krna ke liye multiple fun banayenge . us fun me hm bataye hai ki jab v ye fun call ho to ye state me ka ke ye action perform krna . 
+
+ex : 
+increment: (state , action)=>{
+  state.value += 1
+}
+
+// means ki jab v increment pe click ho to to state me ja ke value ko 1 se badha dena . or ye dikhne me mutable jesa hai or dekh ke lagta hai ki koi action involve nhi hai per internally ye immerse library ka use krta hai or ye mutable to nhi hai action ka v internally hi use hota hai. 
+
+then fir hm action ko acess krke pass kr denge apne store.js me , hm yaha se action ko dispatch kr lenge. wahi action hamare reducer pe pass ja ke state ko change krne ka himmat rakhta hai . then fir reducer ko export kr lenge jo ki autometically generate ho jayega . 
+
+vi. export...
+
+export const { jo fun banaye wo } = fileName.action; // yaha se action export ho gaya . 
+export default fileName.reducer // ye v autometically generate ho gaya. 
+
+vii. import and connect...
+
+ab reducer ko connect krne ke liye import karenge then fir reducer me pass kr denge taki jo v action perform ho wo store ko update kr de or ui pe v update ho jaye . 
+
+ab hmko use and update ke liye . 
+
+// jis v component me need hai , uska data lane ke liye  useSelector use karenge or fir data ke action ko perform krwane ke liye hm jo v fun banaye hai usko dispatch kr denge. 
+
+** hmko reducer fun ke ander aldeady bata rakhe hai ki ye fun call hone pe ye krna . to mujhe bs data (store) hai wo la ke fun ko bs dispatch krna hai. 
+
+*** nameSlice.js ke ander ka kaam : createSlice ko import kr lene or usko kisi var me save kr lene usme name = uniquie indentity uska pass karenge , fir uper initialization store bana lenge wo pass karenge or reducers pass karenge uske ander jo kaam karwane hai wo wo action ke liye fun bana lenge . ant me named export se action export kr denge , or jo file me save kiye hai uska reducer auto generate hoga to wo default export kr denge. THEN IN STORE.JS : import kr ke reducers me pass kr denge. 
+
+// how to make hamare syncronus programming ko asyncronus . 
+
+i . thunk : ye hamare code ko syncronus se asyncronus banane ke liye hota hai . iska setup krne ke liye hm . ye alag se fun bana lenge jo ki hamare extra reducer ka kaam karega. 
+
+ii. to hm thunk ka setup krne ke liye fun banayenge createAsyncThunk naam se or usme hm 2 parameter pass kr skte hai . pahela type and dusra asyncronus fun . 
+to type bhejenge 'name/varName' jisme thunk fun save kiye hai . or dusra coma de ke async fun pass kr denge or usme hi hm apna api call kr lenge. 
+
+iii. asyn fat arrow fun ke ander : fetch kr lenge api ko , usko response me store kr denge or data aane me time lageka issliye await v kr denge , then fir jo data milega usko dot json kr denge , or usko v await kr lenge q ki hm usko readable formet me kr rahe hai or fir usko data me save kr lenge . then clg kara lenge data ko. 
+
+iv. chuki ye extra reducer hai to ye action se nhi milge to isko hmko alag se named export krna parega .
+
+v. now export ho gaya ab usse call kr lenge , jaha v call krna hoga. call krne ke liye hm useDispatch ka use kr lenge apne app.jsx me dispatch ke ander featchuser call kr lenge. 
+
+vi. chuki ye thunk hamara extra reducer hai to usko store me v set krna parega. access to kr liye yese , pr store me bhejna hai. or hamra thunk jo hai wo mainly 3 type generate krta hai. 
+
+1. user/fetchUser/pending
+2.user/fetchUser/fullfilled
+3.user/fetchUser/rejected
+
+to hmko extra reducer ke ander addBuilder milta hai. uske through hm addCase me jate hai or teeno case hone pe kya hoga wo set krte hai jisme meri madat state, action krta hai. 
+
+addBuilder.addCase(fetchUser.pending, (state, action)=>{
+      state.loading = true;
+      state.error = null;
+    }) 
+
+    *** addBuilder hamara helper obj hota hai.
+
+kuch yese , addBuilder me addCase me gaye waha pahele case ko access kiye usme state , action mila waha ham state.loading, state.error set kr diye . oe ye hm loading, error apne initial state me bna lenge palene set krne se. issi me fetchUser.fullfilled wale case me data set krne ke liye state.user me action.payload pass karenge. 
+
+
+// custome error ko pass krna hai then fir hm async fun call krte time fetchUser me {rejectWithValue} pass karenge , or try and catch wala syntax se hm apna custome error pass kr denge. or wo error fir state me nhi milega wo payload me hi milega.
+
+// ab data ko persist karana hai , means ki data ko localStorage pe save krna hai to uske liye hmko data ko persist krna hoga. 
+// persist krne ke liye hmko redux persist use krna parega. pahele to hmko import krna hoga then combine reducer bana lenge..
+
+persistreducer banayenge , 
+combinereducer ka use krne persistreducer me daal denge , combine reducer krke rootReducer banayenge , persistConfig me configration dalenge.
+jaha provide kiye hai waha persistGate laga denge, 
+
+
