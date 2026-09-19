@@ -16,6 +16,7 @@ function App() {
     <input type="text" onChange={(e)=>dispatch(changeName(e.target.value))} />
       <Counter/>
       <Users/>
+      <h1>hello react</h1>
     </>
   )
 }
