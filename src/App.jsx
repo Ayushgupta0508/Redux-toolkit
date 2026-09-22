@@ -17,6 +17,7 @@ function App() {
       <Counter/>
       <Users/>
       <h1>hello react</h1>
+      <h2>hello ji </h2>
     </>
   )
 }
