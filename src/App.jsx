@@ -18,7 +18,7 @@ function App() {
       <Users/>
 
       <h1>Main Branch</h1>
-      <h1>Login Feature</h1>
+
       <h1>Navbar Branch</h1>
 
       <h1>hello react</h1>
